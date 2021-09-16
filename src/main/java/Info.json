@@ -1,0 +1,33 @@
+[{"LabWorks" : {
+  "key" : "1",
+  "name" : "First",
+  "x" : "12",
+  "y" : "14",
+  "minpoint" : "1",
+  "difficulty" : "hard",
+  "pname" : "and",
+  "weight" : "2",
+  "eyecolor" : "brown",
+  "haircolor" : "brown",
+  "nationality" : "germany",
+  "lx" : "22",
+  "ly" : "22",
+  "lname" : "ccc"
+}},
+  {"LabWorks": {
+    "key": "2",
+    "name": "Second",
+    "x": "12",
+    "y": "14",
+    "minpoint": "1",
+    "difficulty": "normal",
+    "pname": "and",
+    "weight": "22",
+    "eyecolor": "brown",
+    "haircolor": "brown",
+    "nationality": "germany",
+    "lx": "22",
+    "ly": "22",
+    "lname": "ccc"
+  }}
+]
