@@ -16,7 +16,7 @@ public class UpdateID extends Command {
         LabWork labWork = (LabWork) combinedCommand.getObject();
 
         CommandReceiver commandReciever = new CommandReceiver(socket);
-        commandReciever.updateId(String.valueOf(arg), labWork);
+        commandReciever.updateId(arg, labWork);
 
     }
 }

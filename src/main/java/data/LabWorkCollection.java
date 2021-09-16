@@ -56,47 +56,56 @@ public class LabWorkCollection {
         return InitializationTime;
     }
 
-    public  static void executeUpdateID(String in,LabWork labWork2) throws FileNotFoundException {
+    public static void executeUpdateID(Integer in,LabWork labWork2) throws FileNotFoundException {
         new LabWorkCollection().doInitialization();
-        Integer id = Integer.valueOf(in);
-        LabWork labWork;
-        Iterator<LabWork> iterator = labWorks.values().iterator();
-        while (iterator.hasNext()) {
-            if ((labWork = iterator.next()).getId().equals(id)) {
-//                LabWork insert = Creator.LabWorkCreate();
-                labWork2.changeId(id);
-                labWorks.replace(id,labWork2);
+        for (LabWork work : labWorks.values()) {
+            if (work.getId().equals(in)) {
+                labWork2.changeId(in);
+                Integer key = returnKey(labWork2);
+                labWorks.put(key,labWork2);
+            }}
 
-
-            }
-        }
         executeSave();
     }
+    public static Integer returnKey(LabWork desiredLab){
+        HashMap<Integer,LabWork> map=labWorks;
+        Set<Map.Entry<Integer,LabWork>> entrySet=map.entrySet();
+        Integer key = 0;
+        for (Map.Entry<Integer,LabWork> pair : entrySet) {
+            if (desiredLab.getId().equals(pair.getValue().getId())) {
+                key = pair.getKey();// нашли наше значение и возвращаем ключ
+            }
+        }
+        return key;
+    }
 
-    public static void executeCountByDifficulty(String option){
+    public static String executeCountByDifficulty(String option) throws FileNotFoundException {
         new LabWorkCollection().doInitialization();
         HashMap<Integer, LabWork> labWorkHashMap = new HashMap<Integer, LabWork>();
         LabWorkCollection collection = new LabWorkCollection();
         for(Map.Entry<Integer, LabWork> labWork : labWorks.entrySet()){
             if (labWork.getValue().getDifficulty().toString().equalsIgnoreCase(option)){
                 labWorkHashMap.put(labWork.getKey(),labWork.getValue());
-                System.out.println(labWorkHashMap.toString());
+// System.out.println(labWorkHashMap.values());
             }
         }
         if (labWorkHashMap.isEmpty()){
             System.out.println("No such difficulty found");
         }
+        executeSave();
+        return labWorkHashMap.values().toString();
     }
 
 
 
-    public static void executePrintField() throws FileNotFoundException {
+    public static String executePrintField() throws FileNotFoundException {
         PersonComparator compareAuthor = new PersonComparator();
         new LabWorkCollection().doInitialization();
         List<LabWork> labWorkSorted = new ArrayList<>(labWorks.values());
-        labWorkSorted.sort(Collections.reverseOrder(compareAuthor));
-        System.out.println(labWorkSorted);
+        labWorkSorted.sort(compareAuthor);
         executeSave();
+        return labWorkSorted.toString();
+
     }
 
     public static void executeSave() throws FileNotFoundException {
@@ -113,17 +122,15 @@ public class LabWorkCollection {
 
     public static void executeRemoveDifficulty(String option) throws FileNotFoundException {
         new LabWorkCollection().doInitialization();
-        HashMap<Integer, LabWork> labWorkHashMap = new HashMap<>();
+        HashMap<Integer, LabWork> labWorkHashMap = new HashMap<Integer, LabWork>();
         LabWorkCollection collection = new LabWorkCollection();
         for(Map.Entry<Integer, LabWork> labWork : labWorks.entrySet()){
             if (labWork.getValue().getDifficulty().toString().equalsIgnoreCase(option)){
-                labWorkHashMap.remove(labWork.getKey(), labWork.getValue());
-                System.out.println(labWorkHashMap.toString());
-            }
+                labWorkHashMap.put(labWork.getKey(), labWork.getValue());
+                System.out.println(labWorkHashMap.values());
+            }else {System.out.println("There is no labwork with such difficulty");}
         }
-        if (labWorkHashMap.isEmpty()){
-            System.out.println("There is no labwork with such difficulty");
-        }
+        labWorks.keySet().removeAll(labWorkHashMap.keySet());
         executeSave();
     }
 
@@ -189,7 +196,7 @@ public class LabWorkCollection {
         new LabWorkCollection().doInitialization();
 
         if (labWorks.size()==0){
-            throw new NullException("collection still empty\n");
+         return "Collection is empty\n";
         }
         return labWorks.values().toString();
     }

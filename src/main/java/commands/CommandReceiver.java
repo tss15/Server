@@ -100,9 +100,9 @@ public class CommandReceiver {
     }
 
     public void countByDif(String option) throws IOException {
-        LabWorkCollection.executeCountByDifficulty(option);
+//        LabWorkCollection.executeCountByDifficulty(option);
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(new SerializedMessage("Elements counted"));
+        out.writeObject(new SerializedMessage(LabWorkCollection.executeCountByDifficulty(option)));
         logger.info(String.format("Client %s:%s received results of command count_by_difficulty",  socket.getInetAddress(),  socket.getPort()));
     }
 
@@ -114,9 +114,9 @@ public class CommandReceiver {
     }
 
     public void printField() throws IOException {
-        LabWorkCollection.executePrintField();
+//        LabWorkCollection.executePrintField();
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        out.writeObject(new SerializedMessage("Collection sorted"));
+        out.writeObject(new SerializedMessage("Collection sorted"+LabWorkCollection.executePrintField()));
         logger.info(String.format("Client %s:%s received results of command print_field",  socket.getInetAddress(),  socket.getPort()));
     }
 
@@ -127,7 +127,7 @@ public class CommandReceiver {
         logger.info(String.format("Client %s:%s received results of command save",  socket.getInetAddress(),  socket.getPort()));
     }
 
-    public void updateId(String option, Object o) throws IOException {
+    public void updateId(Integer option, Object o) throws IOException {
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         LabWork labWork = (LabWork) o;
         LabWorkCollection.executeUpdateID(option,labWork);
